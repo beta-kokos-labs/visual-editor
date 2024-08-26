@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Objects</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        .draggable {
+            width: 100px;
+            height: 100px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            cursor: move;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            user-select: none;
+        }
+        .draggable:nth-child(2) {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div id="box1" class="draggable" style="top: 50px; left: 50px;">Drag me!</div>
+    <div id="box2" class="draggable" style="top: 200px; left: 200px;">Me too!</div>
+
+    <script>
+        const draggableElements = document.querySelectorAll('.draggable');
+
+        draggableElements.forEach(element => {
+            let offsetX, offsetY, isDragging = false;
+
+            element.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offsetX = e.clientX - element.getBoundingClientRect().left;
+                offsetY = e.clientY - element.getBoundingClientRect().top;
+                element.style.zIndex = 1000; // Bring the dragged element to the front
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    element.style.left = e.clientX - offsetX + 'px';
+                    element.style.top = e.clientY - offsetY + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+                element.style.zIndex = ''; // Reset the z-index
+            });
+        });
+    </script>
+</body>
+</html>
